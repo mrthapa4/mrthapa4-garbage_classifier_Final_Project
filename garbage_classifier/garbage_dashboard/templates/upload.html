@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload & Classify Image{% endblock %}
+
+{% block content %}
+<style>
+    .modern-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        transition: transform 0.3s ease;
+    }
+
+    .modern-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .upload-area {
+        border: 2px dashed #007bff;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
+
+    .upload-area:hover {
+        background-color: #e9ecef;
+    }
+
+    .btn-classify {
+        background-color: #007bff;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 30px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-classify:hover {
+        background-color: #0056b3;
+    }
+
+    .result-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .result-card h5 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+
+    .result-card .image-container {
+        border-radius: 10px;
+        margin-top: 20px;
+        overflow: hidden; /* To contain the image within the rounded border */
+    }
+
+    .result-card .image-container img {
+        display: block; /* Prevent extra space below the image */
+        max-width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: contain; /* Maintain aspect ratio, fit within container */
+        width: 100%; /* Make the image responsive within its container */
+    }
+
+    .token-info {
+        margin-top: 20px;
+        font-size: 1.1rem;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="modern-card p-4">
+            <h2 class="text-center mb-4">Classify Image</h2>
+            
+            <!-- Display Tokens -->
+            <div class="text-center mb-3">
+                <i class="fas fa-coins text-warning me-1"></i>
+                <span>Tokens: {{ tokens }}</span>
+            </div>
+
+            <!-- Image Upload Form -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="upload-area mb-3">
+                    <label for="file" class="form-label">Drag or click to upload an image</label>
+                    <input type="file" class="form-control" id="file" name="file" accept="image/*" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-classify text-white">Classify Image</button>
+                </div>
+            </form>
+
+            <!-- Display Error -->
+            {% if error %}
+            <div class="alert alert-danger mt-3" role="alert">
+                {{ error }}
+            </div>
+            {% endif %}
+        </div>
+
+        {% if result %}
+        <div class="result-card">
+            <h5>Classification Result</h5>
+            <p>{{ result }}</p>
+
+            {% if image_path %}
+            <div class="mt-4">
+                <div class="image-container">
+                    <p class="text-muted">Image path: {{ image_path }}</p>
+                    <img src="{{ image_path }}" alt="Classified Image" class="img-fluid"
+                         onerror="this.onerror=null; this.style.display='none'">
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="token-info">
+                <i class="fas fa-coins text-warning me-1"></i>
+                <span>Tokens Remaining: {{ tokens }}</span>
+            </div>
+            {% if deducted %}
+            <p class="text-muted mt-2">3 tokens were deducted for this classification.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

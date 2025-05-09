@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">My App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/classify/">Classify</a>
+                </li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <span class="navbar-text me-3">Tokens:
+                        {% if user.userprofile %}
+                            {{ user.userprofile.tokens }}
+                        {% elif request.user.tokens %}
+                            {{ request.user.tokens }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/logout/">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/login/">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/accounts/signup/">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

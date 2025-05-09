@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+    .modern-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        transition: transform 0.3s ease;
+    }
+    .modern-card:hover {
+        transform: translateY(-5px);
+    }
+    .modern-card h5 {
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    .modern-card p {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+    h2 {
+        color: #007bff;
+        margin-bottom: 30px;
+    }
+    .location-text {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    .pollutant-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .pollutant-item {
+        flex: 1 1 45%;
+        margin: 5px 0;
+        display: flex;
+        align-items: center;
+    }
+    .pollutant-item i {
+        margin-right: 8px;
+        color: #007bff;
+    }
+    .aqi-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .aqi-item i {
+        margin-right: 8px;
+        color: #007bff;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+        <h2>Welcome to My App</h2>
+        <div class="modern-card p-4 mt-4">
+            <div class="location-text">
+                <i class="fas fa-map-marker-alt me-1"></i> {{ location }}
+            </div>
+            <h5>Air Quality</h5>
+            <p class="aqi-item">
+                <i class="fas fa-wind"></i>
+                <strong>AQI:</strong> 
+                <span class="{% if aqi_description == 'Good' %}text-success{% elif aqi_description == 'Very Poor' %}text-danger{% else %}text-warning{% endif %}">
+                    {{ aqi_description }}
+                </span>
+            </p>
+            <div class="pollutant-row">
+                <div class="pollutant-item">
+                    <i class="fas fa-smog"></i>
+                    <strong>PM2.5:</strong> {{ pm25 }} µg/m³
+                </div>
+                <div class="pollutant-item">
+                    <i class="fas fa-smog"></i>
+                    <strong>PM10:</strong> {{ pm10 }} µg/m³
+                </div>
+                <div class="pollutant-item">
+                    <i class="fas fa-cloud-sun"></i>
+                    <strong>O3:</strong> {{ o3 }} µg/m³
+                </div>
+                <div class="pollutant-item">
+                    <i class="fas fa-industry"></i>
+                    <strong>NO2:</strong> {{ no2 }} µg/m³
+                </div>
+                <div class="pollutant-item">
+                    <i class="fas fa-fire"></i>
+                    <strong>SO2:</strong> {{ so2 }} µg/m³
+                </div>
+                <div class="pollutant-item">
+                    <i class="fas fa-car"></i>
+                    <strong>CO:</strong> {{ co }} µg/m³
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
